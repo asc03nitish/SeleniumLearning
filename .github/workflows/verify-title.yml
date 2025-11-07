@@ -16,9 +16,12 @@ jobs:
       run: | 
         pip install --upgrade pip 
         pip install selenium webdriver-manager
+        pip install pytest 
     - name: Install Chrome
       run: | 
         sudo apt update 
         sudo apt install -y google-chrome-stable
-    - name: Run verification script
-      run: python title.py
+#    - name: Run verification script
+    - name: Run Pytest
+#      run: python title.py
+      run: pytest -v

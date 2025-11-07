@@ -2,9 +2,6 @@ print("hello world")
 
 import pytest
 
-
-# ---------------- FIXTURES ---------------- #
-
 @pytest.fixture(scope="function")
 def function_scope_fixture():
     """Runs for each test function"""
