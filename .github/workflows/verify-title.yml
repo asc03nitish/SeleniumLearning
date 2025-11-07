@@ -24,4 +24,4 @@ jobs:
 #    - name: Run verification script
     - name: Run Pytest
 #      run: python title.py
-      run: pytest -v
+      run: pytest -v title.py
