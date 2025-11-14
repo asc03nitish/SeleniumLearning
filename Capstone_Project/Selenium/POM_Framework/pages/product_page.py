@@ -1,0 +1,177 @@
+# pages/product_page.py
+from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import WebDriverWait
+from selenium.webdriver.support import expected_conditions as EC
+from selenium.common.exceptions import StaleElementReferenceException
+import time
+
+class ProductPage:
+    """Handles product list and cart operations."""
+
+    PRODUCT_TITLES = (By.CSS_SELECTOR, "h2.product-title a")
+    DETAIL_ADD_TO_CART = (By.CSS_SELECTOR, "input[value='Add to cart']")
+    TOP_CART_LINK = (By.LINK_TEXT, "Shopping cart")
+    REMOVE_BOXES = (By.NAME, "removefromcart")
+    UPDATE_CART_BTN = (By.NAME, "updatecart")
+    CART_BADGE = (By.CSS_SELECTOR, "span.cart-qty")
+
+    def __init__(self, driver):
+        self.driver = driver
+
+    def titles(self):
+        """Return list of visible product titles."""
+        return self.driver.find_elements(*self.PRODUCT_TITLES)
+
+    def add_from_product_detail(self):
+        """Click Add to Cart button from product detail page."""
+        btn = WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.DETAIL_ADD_TO_CART)
+        )
+        btn.click()
+
+    def open_cart(self):
+        """Open shopping cart page."""
+        WebDriverWait(self.driver, 10).until(
+            EC.element_to_be_clickable(self.TOP_CART_LINK)
+        ).click()
+
+    def remove_all_items(self):
+        """Remove all items from the shopping cart if present."""
+        try:
+            checkboxes = WebDriverWait(self.driver, 5).until(
+                EC.presence_of_all_elements_located(self.REMOVE_BOXES)
+            )
+            for box in checkboxes:
+                box.click()
+
+            update = WebDriverWait(self.driver, 5).until(
+                EC.element_to_be_clickable(self.UPDATE_CART_BTN)
+            )
+            update.click()
+        except:
+            pass
+
+    def cart_count_number(self):
+        """Return numeric cart count safely."""
+        try:
+            qty_text = self.driver.find_element(*self.CART_BADGE).text.strip("()")
+            return int(qty_text) if qty_text else 0
+        except:
+            return 0
+
+    def prices_float(self):
+        """Return all visible product prices as float values."""
+        prices = self.driver.find_elements(By.CSS_SELECTOR, "span.price.actual-price")
+        numbers = []
+
+        for p in prices:
+            txt = p.text.strip().replace("$", "").replace(",", "")
+            try:
+                numbers.append(float(txt))
+            except:
+                pass
+
+        return numbers
+
+
+
+
+
+
+# class ProductPage:
+#     """Product listing and product detail actions."""
+#
+#     PRODUCT_TITLES = (By.CSS_SELECTOR, "h2.product-title a")
+#     ADD_TO_CART_LIST = (By.CSS_SELECTOR, "input.button-2.product-box-add-to-cart-button")
+#     CART_BADGE = (By.CSS_SELECTOR, "span.cart-qty")
+#     DETAIL_ADD_TO_CART = (By.CSS_SELECTOR, "input[value='Add to cart']")
+#     REMOVE_BOXES = (By.NAME, "removefromcart")
+#     UPDATE_CART_BTN = (By.NAME, "updatecart")
+#     TOP_CART_LINK = (By.LINK_TEXT, "Shopping cart")
+#
+#     def __init__(self, driver):
+#         self.driver = driver
+#
+#     def titles(self):
+#         return self.driver.find_elements(*self.PRODUCT_TITLES)
+#
+#     def cart_count_number(self):
+#         """Return numeric cart count like (3) → 3"""
+#         try:
+#             txt = self.driver.find_element(*self.CART_BADGE).text.strip("()")
+#             return int(txt)
+#         except:
+#             return 0
+#
+#     def clear_cart_if_any(self):
+#         """Clear cart fully before test."""
+#         try:
+#             badge = self.driver.find_element(*self.CART_BADGE)
+#             qty = badge.text.strip("()")
+#
+#             if qty and int(qty) > 0:
+#                 badge.click()
+#
+#                 boxes = self.driver.find_elements(*self.REMOVE_BOXES)
+#                 update = self.driver.find_element(*self.UPDATE_CART_BTN)
+#
+#                 for box in boxes:
+#                     box.click()
+#
+#                 update.click()
+#
+#         except:
+#             pass
+#
+#     def add_from_product_detail(self):
+#         """Click Add to Cart inside product detail page."""
+#         btn = WebDriverWait(self.driver, 10).until(
+#             EC.element_to_be_clickable(self.DETAIL_ADD_TO_CART)
+#         )
+#         btn.click()
+#
+#     def wait_until_cart_increases(self, old_count):
+#         """Wait until cart count is old_count+1."""
+#         WebDriverWait(self.driver, 10).until(
+#             lambda driver: self.cart_count_number() == old_count + 1
+#         )
+#
+#     def prices_float(self):
+#         """Return all visible product prices as float values."""
+#         prices = self.driver.find_elements(By.CSS_SELECTOR, "span.price.actual-price")
+#         numbers = []
+#
+#         for p in prices:
+#             txt = p.text.strip().replace("$", "").replace(",", "")
+#             try:
+#                 numbers.append(float(txt))
+#             except:
+#                 pass
+#
+#         return numbers
+#
+#     def open_cart(self):
+#         """Open shopping cart page."""
+#         self.driver.find_element(*self.TOP_CART_LINK).click()
+#
+#     def remove_all_items(self):
+#         """Remove all items from cart if present."""
+#         try:
+#             remove_boxes = self.driver.find_elements(By.NAME, "removefromcart")
+#             update_btn = self.driver.find_element(By.NAME, "updatecart")
+#
+#             for box in remove_boxes:
+#                 box.click()
+#
+#             update_btn.click()
+#         except:
+#             pass
+#
+#     def safe_get_text(driver, locator, retries=3):
+#         for _ in range(retries):
+#             try:
+#                 return driver.find_element(*locator).text
+#             except StaleElementReferenceException:
+#                 time.sleep(1)
+#         return ""  # fallback
+#

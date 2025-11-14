@@ -1,0 +1,100 @@
+{
+    "accounts": {
+        "6f557388": {
+            "id": "6f557388",
+            "owner": "Nischita",
+            "balance": 1500.0,
+            "created_at": "2025-11-10 10:42:30",
+            "type": "SavingsAccount"
+        },
+        "e967e2d0": {
+            "id": "e967e2d0",
+            "owner": "Nitish",
+            "balance": 500.0,
+            "created_at": "2025-11-10 10:42:30",
+            "type": "SavingsAccount"
+        }
+    },
+    "transactions": [
+        {
+            "id": "490c930d",
+            "account_id": "6f557388",
+            "type": "CREATE",
+            "amount": 1000.0,
+            "description": "New savings account created",
+            "timestamp": "2025-11-08 10:55:57"
+        },
+        {
+            "id": "528059bc",
+            "account_id": "6f557388",
+            "type": "UPDATE",
+            "amount": 0,
+            "description": "Owner updated to Nischita",
+            "timestamp": "2025-11-08 10:56:42"
+        },
+        {
+            "id": "eed2c584",
+            "account_id": "6f557388",
+            "type": "DEPOSIT",
+            "amount": 500.0,
+            "description": "Amount deposited",
+            "timestamp": "2025-11-08 10:57:10"
+        },
+        {
+            "id": "a464e0ff",
+            "account_id": "6f557388",
+            "type": "WITHDRAW",
+            "amount": 500.0,
+            "description": "Amount withdrawn",
+            "timestamp": "2025-11-08 10:57:36"
+        },
+        {
+            "id": "cac487f3",
+            "account_id": "e967e2d0",
+            "type": "CREATE",
+            "amount": 1000.0,
+            "description": "New savings account created",
+            "timestamp": "2025-11-08 10:57:55"
+        },
+        {
+            "id": "39c85d78",
+            "account_id": "e967e2d0",
+            "type": "TRANSFER_OUT",
+            "amount": 500.0,
+            "description": "To 6f557388",
+            "timestamp": "2025-11-08 10:59:21"
+        },
+        {
+            "id": "791fa237",
+            "account_id": "6f557388",
+            "type": "TRANSFER_IN",
+            "amount": 500.0,
+            "description": "From e967e2d0",
+            "timestamp": "2025-11-08 10:59:21"
+        },
+        {
+            "id": "becdf6f3",
+            "account_id": "0faebbba",
+            "type": "CREATE",
+            "amount": 1000.0,
+            "description": "New checking account created",
+            "timestamp": "2025-11-10 10:42:52"
+        },
+        {
+            "id": "09b8d674",
+            "account_id": "0faebbba",
+            "type": "WITHDRAW",
+            "amount": 1000.0,
+            "description": "Amount withdrawn",
+            "timestamp": "2025-11-10 10:43:21"
+        },
+        {
+            "id": "164fa82c",
+            "account_id": "0faebbba",
+            "type": "DELETE",
+            "amount": 0,
+            "description": "Account deleted",
+            "timestamp": "2025-11-10 10:43:28"
+        }
+    ]
+}
